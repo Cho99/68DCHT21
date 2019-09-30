@@ -7,10 +7,4 @@
  
  $connect = mysqli_connect($hostname, $username, $password, $database);
  mysqli_query($connect, "SET NAME 'uf8'");
- if ($connect) {
- 	echo 'Success';
- }else {
- 	echo 'Fail';
- }
-
  ?>
