@@ -1,16 +1,14 @@
-<?php require 'GET.php'; ?>
-<?php require 'Server.php'; ?>
-    <?php if (isset($_GET['edit'])) {
-    	$id = $_GET['edit'];
-    	$query =  "SELECT * FROM student WHERE id = '$id'";
-    	$data = mysqli_query($connect, $query);
-    	$row = mysqli_fetch_assoc($data);
-    	$id = $row['id'];
-    	$name = $row['hoten'];
-    	$namsinh = $row['namsinh'];	 	
-    	$edit_sate = true;
-    }
-?>
+<?php require 'server.php'; ?>
+<?php if (isset($_GET['edit'])) {
+	$id = $_GET['edit'];
+	$query = "SELECT * FROM student WHERE id='$id'";
+	$student = mysqli_query($connect, $query);
+	$row = mysqli_fetch_assoc($student);
+	$hoten = $row['hoten'];
+	$namsinh = $row['namsinh'];
+	$id = $row['id'];
+	$edit_sate = true;
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,48 +16,42 @@
 	<title>Student</title>
 </head>
 <body>
-	
-		<table style="width:100%; border: 1px">	
-			<tr>
-				<th>ID</th>
-				<th>Họ và tên</th>
-				<th>Năm Sinh</th>
-				<th>Thao Tác</th>
-			</tr>
-			<?php foreach ($array_stuent as $value) { ?>
-            <tr>
-            	<input type="hidden" name="id" id="id" >
-				<th> <?= $value->id ?></th>
-				<th> <?= $value->name ?></th>
-				<th><?= $value->namsinh ?></th>
-				<th><a href="index.php?edit=<?= $value->id ?>" class="btn btn-secondary">Edit</a></th>	
-				<th><a href="Delete.php?del=<?= $value->id ?>" class="btn btn-secondary">Delete</a></th>				
-			</tr>
-			<?php } ?>
-		</table>
-
-	<form method="post" action="server.php" style="align-items: center;
-    align-content: center;
-    visibility: ;
-    border-radius: 5px;
-    border: 1px solid gray;
-    width: max-content;">
-		<table>
+	<table style="width: 100%; border-radius: 10px; border: 1px solid grey">
+		<tr>
+			<td>ID</td>
+			<td>Họ Tên</td>
+			<td>Năm Sinh</td>
+			<td>Thao Tác</td>
+		</tr>
+		<?php while ($row = mysqli_fetch_array($data)){ ?>
+		<tr>
+			<td><?= $row['id'] ?></td>
+			<td><?= $row['hoten'] ?></td>
+			<td><?= $row['namsinh'] ?></td>
+			<td><a href="index.php?edit=<?= $row['id'] ?>" class="btn btn-success">Edit</a></td>
+			<td><a href="server.php?del=<?= $row['id'] ?>" class="btn btn-success">Delete</a></td>
+		</tr>
+		<?php } ?>
+	</table>
+	<br>
+	<br>
+	<form action="server.php" method="post">
+		<table style="width: 20%; border-radius: 10px; border: 5px solid grey" align="center">
 			<input type="hidden" name="id" id="id" value="<?= $id ?>">
 			<tr>
-				<td><label>Họ và tên:</label></td>
-				<td><input type="text" name="hoten" value="<?= $name ?>"></td>
+				<td>Họ Tên:</td>
+				<td><input type="text" name="hoten" value="<?= $hoten ?>"></td>
 			</tr>
 			<tr>
-				<td><label>Ngay Sinh:</label></td>
+				<td>Năm sinh:</td>
 				<td><input type="date" name="namsinh" value="<?= $namsinh ?>"></td>
 			</tr>
 			<tr>
-				<?php if($edit_sate == false): ?>
-				<td><button type="submit" name="save" class="btn-success">Save</button></td>
+				<?php if ($edit_sate == false): ?>
+				<td><button type="submit" name="save">Save</button></td>
 				<?php else: ?>
-				<td><button type="submit" name="update" class="btn-success">Update</button></td>
-				<?php endif; ?>
+				<td><button type="submit" name="update">Edit</button></td>
+			    <?php endif; ?>
 			</tr>
 		</table>
 	</form>
