@@ -10,6 +10,13 @@ if (isset($_GET['sua'])) {
 	$vitri_edit = true;
 }
  ?>
+ <?php 
+if (isset($_POST['timkiem'])) {
+	$key = $_POST['key'];
+	$key = addslashes($key);
+	$data = mysqli_query($connect, "SELECT * FROM student WHERE LOWER(hoten) LIKE '%$key%' OR namsinh LIKE '%$key%'");	
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,5 +63,19 @@ if (isset($_GET['sua'])) {
 			</tr>
 		</table>
 	</form>
+	<br>
+	<br>
+    <form action="index.php" method="post" >
+    	<table>
+    		<tr>
+    			<input type="text" name="key">
+    		</tr>
+    		<tr>
+    			<td>
+    				<button type="submit" name="timkiem" value="true">Tìm Kiếm</button>
+    			</td>
+    		</tr>
+    	</table>
+    </form>
 </body>
 </html>
